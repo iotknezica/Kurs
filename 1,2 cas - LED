@@ -1,13 +1,13 @@
-const int LED = 19;   //Ubaciti broj pina na ESP-ju koji se koristi za paljenje LEDa
+const int LED = 14;   //Ubaciti broj pina na ESP-ju koji se koristi za paljenje LEDa
 
-// the setup function runs once when you press reset or power the board
+// setup funkcija se pokreće samo jednom kada se pritisne reset ili se uključi pločica
 void setup() {
   Serial.begin(115200);
-  // initialize digital pin LED as an output.
+  // inicijalizuj digitalni pin kao output za LED
   pinMode(LED, OUTPUT);
 }
 
-// the loop function runs over and over again forever
+// loop funkcija se pokreće uvijek iznova tj. vrti se u krug
 void loop() {
   
   // Upali LED
