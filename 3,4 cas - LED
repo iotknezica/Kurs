@@ -9,7 +9,6 @@ void setup() {
 
 // loop funkcija se pokreće uvijek iznova tj. vrti se u krug
 void loop() {
-  
   // Upali LED
   Serial.println("Upali led.");
   digitalWrite(LED, HIGH);   // turn the LED on (HIGH is the voltage level)
