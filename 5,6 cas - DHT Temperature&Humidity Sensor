@@ -1,39 +1,40 @@
-Primjer: https://randomnerdtutorials.com/esp32-dht11-dht22-temperature-humidity-sensor-arduino-ide/
+// Primjer: https://randomnerdtutorials.com/esp32-dht11-dht22-temperature-humidity-sensor-arduino-ide/
 
 #include "DHT.h"
+
 //Ubaciti pin na ESP-ju koji se koristi za prenos podataka
 #define DHTPIN 19
-//our sensor is DHT11 type
 #define DHTTYPE DHT11
-//create an instance of DHT sensor
 DHT dht(DHTPIN, DHTTYPE);
 
 void setup()
 {
-Serial.begin(115200);
-Serial.println("DHT11 sensor!");
-//call begin to start sensor
-dht.begin();
+  Serial.begin(115200);
+  Serial.println("DHT11 sensor!");
+  dht.begin();
 }
  
 void loop() {
 
-//use the functions which are supplied by library
-float h = dht.readHumidity();
-// Read temperature as Celsius (the default)
-float t = dht.readTemperature();
-// Check if any reads failed and exit early (to try again).
-if (isnan(h) || isnan(t)) {
-Serial.println("Failed to read from DHT sensor!");
-return;
-}
-// print the result to Terminal
-Serial.print("Humidity: ");
-Serial.print(h);
-Serial.print(" %\t");
-Serial.print("Temperature: ");
-Serial.print(t);
-Serial.println(" *C ");
-//we delay a little bit for next read
-delay(2000);
+  //ucitavanje vlaznosti
+  float h = dht.readHumidity();
+  // ucitavanje temperature u celzijusima
+  float t = dht.readTemperature();
+  
+  // ako se ne ucitaju vrijednosti, izvrsava se sljedece
+  if (isnan(h) || isnan(t)) 
+  {
+    Serial.println("Ucitavanje neuspjesno");
+    return;
+  }
+  
+  // ispis u serial monitor
+  Serial.print("Vlaznost: ");
+  Serial.print(h);
+  Serial.print(" %\t");
+  Serial.print("Temperatura: ");
+  Serial.print(t);
+  Serial.println(" *C ");
+  
+  delay(2000);
 }
