@@ -1,3 +1,7 @@
+https://www.znanje.org/knjige/computer/algoritmi/072d/07211030.gif
+https://www.youtube.com/watch?v=CbJHL_P5RJ8
+https://www.arduino.cc/reference/en/
+
 #include "DHT.h"
 #define DHTPIN 19                   //Ovdje deklarišemo pin za čitanje podataka sa DHT11 senzora
 #define DHTTYPE DHT11               //Ovdje definišemo tip senzora
@@ -10,7 +14,6 @@ const int ledBlue = 1;
 
 void setup() {
   Serial.begin(115200);               //Pokreni terminal
-  Serial.println("DHT11 sensor!");
   dht.begin();                        //Inicijalizuj senzor
   pinMode(ledRed, OUTPUT);
   pinMode(ledYellow, OUTPUT);
@@ -19,8 +22,8 @@ void setup() {
 }
 
 void loop() {
-  float h = dht.readHumidity();       //Očitaj temperaturu
-  float t = dht.readTemperature();    //Očitaj relativnu vlažnost
+  float h = dht.readHumidity();       //Očitaj relativnu vlažnost
+  float t = dht.readTemperature();    //Očitaj temperaturu
   
   if (isnan(h) || isnan(t)) {         //Provjeri jesu li vrijednosti sa senzora dobro očitane
     Serial.println("Failed to read from DHT sensor!");
