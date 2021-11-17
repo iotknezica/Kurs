@@ -1,0 +1,72 @@
+/*********
+  Rui Santos
+  Complete project details at:
+  
+  https://randomnerdtutorials.com/esp32-ssd1306-oled-display-arduino-ide/
+
+*********/
+#include "DHT.h"
+
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+//Ubaciti pin na ESP-ju koji se koristi za prenos podataka
+#define DHTPIN 19
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 32 // OLED display height, in pixels
+
+// Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println("DHT11 sensor!");
+  dht.begin();
+  
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
+    Serial.println(F("SSD1306 allocation failed"));
+    for(;;);
+  }
+}
+
+void loop() {
+  //ucitavanje vlaznosti
+  float h = 80;
+  // ucitavanje temperature u celzijusima
+  float t = 15;
+  
+  // ako se ne ucitaju vrijednosti, izvrsava se sljedece
+  if (isnan(h) || isnan(t)) 
+  {
+    Serial.println("Ucitavanje neuspjesno");
+    return;
+  }
+  
+  // ispis u serial monitor
+  Serial.print("Vlaznost: ");
+  Serial.print(h);
+  Serial.print(" %\t");
+  Serial.print("Temperatura: ");
+  Serial.print(t);
+  Serial.println(" *C ");
+  
+  delay(2000);
+
+  display.clearDisplay();
+
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  
+  display.setCursor(45, 8);
+  display.print(t);
+  display.println(" C");
+
+  display.setCursor(45, 18);
+  display.print(h);
+  display.println(" %");
+  display.display(); 
+}
