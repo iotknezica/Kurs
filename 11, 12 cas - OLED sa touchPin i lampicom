@@ -1,0 +1,60 @@
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define SCREEN_WIDTH 128 // OLED display sirina, u pikselima
+#define SCREEN_HEIGHT 64 // OLED display visina, u pikselima
+
+// Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+
+
+const int touchPin = 4; 
+const int ledPin = 19;
+
+const int granica = 20;
+// promjenljiva za snimanje vrijednosti dodira
+int touchValue;
+
+void setup(){
+  Serial.begin(115200);
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  delay(1000);
+  pinMode (ledPin, OUTPUT);
+}
+
+void loop(){
+  // ocitaj vrijednost dodira na pinu
+  touchValue = touchRead(touchPin);
+  Serial.print(touchValue);
+  // provjeri je li promjenljiva za snimanje vrijednosti dodira ispod granice
+  // ako jest, upali LED
+  if(touchValue < granica){
+    // upali LED
+    digitalWrite(ledPin, HIGH);
+    Serial.println(" - LED on");
+    // ocisti ekran za novi ispis
+    display.clearDisplay();
+    // velicina teksta
+    display.setTextSize(1);
+    // boja teksta
+    display.setTextColor(WHITE);
+    // koordinate teksta u pikselima (x i y osa)
+    display.setCursor(0, 10);
+    // ispisi tekst
+    display.println("ON");
+    display.display(); 
+  }
+  else{
+    // ugasi LED
+    digitalWrite(ledPin, LOW);
+    Serial.println(" - LED off");
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setTextColor(WHITE);
+    display.setCursor(0, 10);
+    display.println("OFF");
+    display.display(); 
+  }
+  delay(1000);
+}
