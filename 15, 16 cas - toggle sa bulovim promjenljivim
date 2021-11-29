@@ -1,0 +1,41 @@
+int pinLed = 19;
+int pinSwitch = 33;
+
+// staro i novo stanje prekidaca
+boolean oldSwitchState = LOW;
+boolean newSwitchState = LOW;
+boolean LEDstatus = LOW;
+
+void setup()
+{
+  pinMode(pinLed, OUTPUT);
+  digitalWrite(pinLed, LOW);
+  pinMode(pinSwitch, INPUT);
+}
+void loop()
+{
+  // citaj status sa pina dugmeta
+  newSwitchState = digitalRead(pinSwitch);
+  // ako je dugme pritisnuto ili ne
+  // uporedi sa proslim stanjem
+  if ( newSwitchState != oldSwitchState )
+  {
+    // da li je prekidac dugmeta bio zatvoren?
+    if ( newSwitchState == HIGH )
+    {
+      // provjeri status lampice
+      if ( LEDstatus == LOW ) {
+        digitalWrite(pinLed, HIGH);
+        LEDstatus = HIGH;
+      }
+      // ako je lampica upaljena, a dugme je opet pritisnuto
+      
+      else{
+        digitalWrite(pinLed, LOW);
+        LEDstatus = LOW;
+      }
+    }
+    // sacuvaj novo stanje prekidaca za dalje poredjenje
+    oldSwitchState = newSwitchState;
+  }
+}
