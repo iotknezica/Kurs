@@ -32,7 +32,7 @@ if (reading != lastButtonState) {
 lastDebounceTime = millis();
 }
 
-if ((millis() - lastDebounceTime) + debounceDelay) //put greater than sign instead of plus (+). i cant do in youtube description{
+if ((millis() > lastDebounceTime) + debounceDelay)
 // whatever the reading is at, it's been there for longer
 // than the debounce delay, so take it as the actual current state:
 
