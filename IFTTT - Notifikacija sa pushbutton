@@ -1,0 +1,55 @@
+#include <WiFi.h>
+#include <HTTPClient.h>
+
+const char* ssid = "";
+const char* password = "";
+const char* serverName= "https://maker.ifttt.com/trigger//with/key/";
+
+int inPin = 33;   // choose the input pin (for a pushbutton)
+int var = 0;     // variable for reading the pin status
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(inPin, INPUT);    // declare pushbutton as input
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+}
+
+void loop(){
+  var = digitalRead(inPin);  // read input value
+  if (var == HIGH) {         // check if the input is HIGH (button released)
+    httpGETRequest(serverName);
+  }
+  delay(1000);
+}
+
+String httpGETRequest(const char* serverName) {
+      HTTPClient http;
+        
+      // Your IP address with path or Domain name with URL path 
+      http.begin(serverName);
+      
+      // Send HTTP POST request
+      int httpResponseCode = http.GET();
+      
+      String payload = "--"; 
+      
+      if (httpResponseCode>0) {
+        Serial.print("HTTP Response code: ");
+        Serial.println(httpResponseCode);
+        payload = http.getString();
+      }
+      else {
+        Serial.print("Error code: ");
+        Serial.println(httpResponseCode);
+      }
+      // Free resources
+      http.end();
+    
+      return payload;
+}
